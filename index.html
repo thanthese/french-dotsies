@@ -1,0 +1,626 @@
+<html>
+  <head>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <style type="text/css">
+
+      .original-script { display: none; }
+
+      .both {
+        float: left;
+        margin: 0.5em;
+      }
+
+      .level-1 { color: blue; }
+      .level-2 { color: red; }
+      .level-3 { color: green; }
+
+    </style>
+    <script type="text/javascript">
+
+      // Notation convention: pure functions are prefixed with "_".
+
+      function originalScript() { return $('.original-script')[0].innerHTML }
+
+      function addBoxToLine(englishWord, frenchWord, level) {
+        $(".line:last").append(_buildDivBox("le", "the", level))
+      }
+
+      /***  pure functions  ***/
+
+      // lines begin with "- "
+      function _splitIntoLines(text) { return text.split("\n- ") }
+
+      // punctuation may be attached to words
+      function _splitIntoWords(text) { return text.split(" ") }
+
+      function _buildDivBox(frenchWord, englishWord, level) {
+        return "<div class=\"both\"> "
+          + "<div class=\"french-word\">" + frenchWord + "</div> "
+          + "<div class=\"english-word level-" + level + "\">" + englishWord + "</div> "
+          + "</div>"
+      }
+
+      // clear non-word chars off of both ends of word, and convert to lower
+      // case
+      function _cleanWord(word) {
+        var w = word
+
+        while(w.length > 0 && _isNonWordChar(w[0])) {
+          w = w.substr(1, w.length)
+        }
+
+        while(w.length > 0 && _isNonWordChar(w[w.length - 1])) {
+          w = w.substr(0, w.length - 1)
+        }
+
+        return w.toLowerCase()
+      }
+
+      function _isNonWordChar(ch) {
+        return (ch == "'"
+          || ch == "\""
+          || ch == "."
+          || ch == ","
+          || ch == ":"
+          || ch == "!"
+          || ch == "?")
+      }
+
+      /***  testing  ***/
+
+      function ok(comment, val) {
+        if(val) {
+          console.log(".")
+        } else {
+          console.log("fail: " + comment + ". " + val)
+        }
+      }
+
+      function runTests() {
+        ok("clean word", _cleanWord("\".,HELLO.,'") == "helLo")
+      }
+
+      runTests()
+
+    </script>
+  </head>
+  <body>
+
+    <div class="all-text">
+      <div class="line"></div>
+    </div>
+
+    <div class="dotsies-text"></div>
+    <div class="original-script">
+- Le 3 septembre 1973 à 18 h 28 min et 32 s, une mouche bleue de la famille des Calliphoridés, pouvant produire 14,670 battements d'ailes à la minute se posait rue Saint-Vincent, à Montmartre.  A la même seconde, à la terrasse d'un restaurant, le vent s'engouffrait sous une nappe, faisant danser les verres sans que personne ne s'en aperçoive.  Au même instant, au 5e étage du 28, avenue Trudaine dans le 9e, Eugène Koler, après l'enterrement de son ami, Émile Maginot, en effaçait le nom de son carnet d'adresse.  Toujours à la même seconde, pourvu d'un chromosome X de M. Raphaël Poulain atteignait l'ovule de Mme Poulain, née Amandine Fouet.  9 mois plus tard naissait Amélie Poulain.
+- Le père d'Amélie, ancien médecin militaire, travaille aux établissements thermaux d'Enghien-les-Bains.  Raphaël Poulain n'aime pas pisser à côté de quelqu'un.  ll n'aime pas surprendre sur ses sandales un regard de dédain Sortir de l'eau et sentir coller son maillot de bain.  Raphaël Poulain aime arracher de grands morceaux de papier peint.  Aligner ses chaussures et les cirer avec soin.  Vider sa boîte à outils, bien la nettoyer, et tout ranger, enfin.  La mère d'Amélie, Amandine Fouet, institutrice originaire de Gueugnon, a toujours été instable et nerveuse.  Elle n'aime pas avoir les doigts plissés par l'eau chaude.  Etre, par quelqu'un qu'elle n'aime pas, effleurée de la main.  Avoir les plis des draps imprimés sur la joue le matin.  Elle aime les costumes des patineurs artistiques sur TF1.  Faire briller le parquet avec des patins.  Vider son sac à main bien le nettoyer, et tout ranger, enfin.  Amélie a 6 ans.  Elle aimerait que son père la serre dans ses bras de temps en temps.  Mais ils n'ont de contact qu'au cours de l'examen médical mensuel.  La fillette, bouleversée par cette intimité, ne peut empêcher son coeur de battre la chamade.  Dès lors, son père la croit victime d'une anomalie cardiaque.  A cause de cette maladie fictive, elle ne va pas à l'école.  Sa mère lui tient lieu de préceptrice.
+- "Les poules couvent souvent au couvent".
+- "Les poules couvent "
+- Très bien.
+- Souvent couvent.
+- Non!
+- Privée du contact des autres enfants, ballottée entre sa mère et son père, Amélie n'a de refuge que dans le monde qu'elle invente.  Dans ce monde, on fabrique les disques vinyles comme des crêpes, et la femme du voisin, dans le coma depuis des mois, a choisi de faire d'une traite son capital de sommeil.
+- Comme ça, je resterai éveillée jour et nuit le reste de ma vie.
+- Le seul ami d'Amélie s'appelle "le Cachalot".  L'ambiance familiale l'a rendu neurasthénique et suicidaire.  Amélie hurle.
+- Ces tentatives de suicide augmentant le stress maternel, une décision est prise
+- Assez!
+- Pour consoler Amélie, sa mère lui offre un Kodak d'occasion.
+- Qu'est-ce que t'as fait?
+- Un voisin lui fait croire que son appareil déclenche des accidents.  Comme elle a pris des clichés tout l'après-midi, un doute affreux l'assaille le soir venu.  Elle s'effondre devant la télé, accablée par la responsabilité d'un incendie, de 2 déraillements et du crash d'un Boeing 747.  Plus tard, réalisant que le voisin s'est moqué d'elle, Amélie décide de se venger.  Commentaires sportifs.
+- Mais qu'est-ce que Attention, toi!  Reprise des commentaires.  ll hurle.  ll hurle et pleure de rage.
+- Et un jour, c'est le drame.  Comme chaque année, sa mère l'emmène brûler un cierge pour que le Ciel lui envoie un petit frère.  La réponse divine intervient 3 min plus tard.  Hélas, ce n'est pas un nouveau-né qui tombe du ciel mais une touriste québécoise, résolue à en finir avec la vie.  Amandine Poulain, née Fouet, est tuée sur le coup.  Après la mort de sa mère, Amélie se retrouve en tête-à-tête avec son père.  Celui-ci se replie davantage sur lui-même.  ll se lance dans la construction d'un mausolée miniature, pour y recueillir les cendres de sa femme.  Les jours, les mois, puis les années passent Le monde extérieur paraît si mort qu'Amélie préfère rêver sa vie en attendant d'avoir l'âge de partir.  5 ans après, Amélie est serveuse dans un café de Montmartre, les Deux Moulins.  Nous sommes le 29 août, dans 48 heures, le destin d'Amélie Poulain va basculer.  Mais pour le moment, elle n'en sait rien.  Pour elle, la vie continue avec ses collègues et les habitués.  Elle, c'est Suzanne, la patronne.  Elle boite un peu, mais n'a jamais renversé un verre.  Quand elle était jeune, elle était danseuse équestre. Elle aime les sportifs qui pleurent de déception.  Elle n'aime pas voir un homme se faire humilier devant son enfant.  Au tabac, c'est Georgette, la malade imaginaire.  Quand elle n'a pas de migraine, c'est le nerf sciatique qui coince.  Celle-là n'aime pas entendre "le fruit de vos entrailles est béni".  Voilà Gina, la collègue d'Amélie, petite-fille d'une guérisseuse.  Elle aime faire craquer les os.  On la voit servir un kir à Hipolito, l'écrivain raté.  Lui, il aime voir un toréador se faire encorner.  Lui, c'est Joseph. Un amant éconduit par Gina.  ll l'espionne tous les jours pour voir s'il a un remplaçant.  Tout ce qu'il aime c'est crever les pustules des emballages en plastique.  Et enfin, voilà Philomène, l'hôtesse de l'air.  Amélie garde son chat quand elle part. Elle aime le bruit du bol d'eau sur le sol. Le chat, lui, aime écouter les histoires pour enfant.
+- Non merci, ma petite dame. Je travaille jamais le dimanche.
+- Souvent le Week-end, Amélie va voir son père en train.
+- Profite de ta retraite pour
+- Pour quoi faire?
+- Pour voyager, t'as jamais quitté Enghien.
+- Quand on était jeunes, avec ta mère, on aurait bien voyagé, mais on ne pouvait pas.  A cause de ton coeur.
+- Oui, je sais.
+- Maintenant, heu  Maintenant
+- Parfois, Amélie va au cinéma.
+- J'aime me retourner dans le noir pour voir le visage des autres.  Et puis j'aime repérer le détail que personne ne verra jamais.  Mais j'aime pas quand les conducteurs regardent pas la route.  lls parlent en anglais.
+- Amélie n'a pas d'homme dans sa vie.  Elle a essayé mais ça n'a pas été à la hauteur de ses espérances.  En revanche, elle cultive le goût des petits plaisirs, plonger la main dans un sac de grains, briser la croûte d'une crème brûlée avec la pointe d'une cuillère.  Et faire des ricochets sur le canal Saint-Martin.
+- Lui, c'est l'homme de verre.  A cause d'une maladie, ses os se cassent comme du cristal.  Ses meubles sont donc molletonnés.  Une poignée de main pouvant lui briser les métacarpes, il ne sort pas.  Le temps n'a rien changé. Amélie se réfugie toujours dans la solitude et se pose des questions idiotes sur le monde ou sur cette ville.  Par exemple, combien de couples ont-ils un orgasme à cet instant?
+- Ah!
+- Ah!
+- Ah!
+- Ah!
+- Oh!
+- Quinze
+- Nous voilà enfin dans la nuit du 30 août 1997.  Voici ce qui va bouleverser la vie d'Amélie Poulain.
+- Bonjour.  La princesse de Galles, Lady Di est morte cet après-midi en voiture.  Elle était avec son ami Seul le 1er a avoir pénétré le tombeau de Toutankhamon pourrait comprendre l'émotion d'Amélie tandis qu'elle découvre le trésor qu'un petit garçon a enfoui.  Reprise des commentaires du journal.  Le 31 août, à 4 heures du matin, une idée lumineuse frappe soudain Amélie.  Elle va retrouver le propriétaire de cette boîte et lui restituer son trésor.  Si ça le touche, c'est décidé, elle se mêlera de la vie des autres.  Sinon, tant pis.
+- La petite du 5e. C'est pas souvent qu'on vous voit.
+- Excusez-moi. Un garçon habitait chez moi dans les années 50?
+- Venez boire un verre de porto.
+- Non, merci.
+- Si, venez. Fermez la porte.  Oh, des gamins  J'en ai connu tellement!  Au début, c'est mignon et après, c'est les boules de neige Je connais.
+- Vous êtes ici depuis quand?
+- En 64.  Les gens ont dû vous raconter.
+- Non.  Asseyez-vous.  Mon mari travaillait à la Coccinelle Assurances.  Les gens aiment dire qu'il couchait avec sa secrétaire.  Faut dire qu'ils ont écumé tous les hôtels des Batignolles Et pas les plus miteux.  Parce que la greluche écartait les cuisses, mais dans le satin!  Mon mari s'est mis à piquer dans la caisse.  D'abord un peu, puis 50 millions d'un coup.  Et hop! Envolés tous les 2 dans la pampa!  Buvez!  Alors le 20 janvier 1970, on sonne à ma porte. Bon "Madame, votre mari est mort en voiture en Amérique du sud".  Ma vie s'est arrêtée.  Lion Noir s'est laissé mourir de chagrin.  Pauvre bête!  Regardez avec quel amour il continue à regarder son maître.  Je vous lirai ses lettres.  Restez là.  Vous avez bien 5 minutes. Là, il était à la caserne.  "Mado chérie " Je m'appelle Madeleine.  "Je ne dors plus. Je ne mange plus.  "J'ai laissé ma seule raison de vivre à Paris.  "Je la retrouverai vendredi 15, " en voyant apparaître ma belette adorée sur le quai de la gare, " dans sa robe bleue à bretelles.  "(Celle que tu trouves trop transparente.) "Bisous". Voilà.  On vous a déjà écrit des lettres comme ça?
+- Non. Je suis la belette de personne.
+- Je m'appelle Madeleine Walace.  On dit : "Pleurer comme une madeleine", hein?
+- Oui.
+- Et Walace Les fontaines Walace C'est vous dire si j'étais prédestinée aux larmes!  Pour votre affaire Allez voir l'épicier.  Collignon a toujours habité l'immeuble.
+- Ah, bonjour, l'Amélie-mélo!  Une figue et 3 noisettes, comme d'habitude?
+- Ceux qui habitaient chez moi en 50 Vous vous souvenez?
+- C'est une colle!  En 50, j'avais 2 ans. Comme ce crétin aujourd'hui.
+- Le crétin, c'est Lucien. Ce n'est pas un génie, mais Amélie l'aime bien.  ll attrape les endives comme des objets précieux, car il aime le travail bien fait.
+- Non mais, regardez-le!  On dirait qu'il recueille un oiseau tombé du nid!  Heureusement que vous ne voulez pas du raisin, vous l'auriez eu lundi!  Tu te remues, le trisomique?  La dame a pas que ça à faire!  Tenez.  Allez voir ma mère.  Elle a une mémoire d'éléphant.  Éléphant de mer!
+- Merci.
+- Bredoteau.
+- Pardon?
+- C'est le nom que vous cherchez. Mais venant de moi, ça compte pas, je suis gâteux.
+- Ne l'écoutez pas, il est gâteux.  Regardez mes lauriers.
+- Ben quoi?  lls se disputent.
+- Avant l'épicerie, il était poinçonneur.
+- Y a pas de honte!
+- La nuit, il se lève et il poinçonne mes lauriers!
+- J'aurais préféré des lilas. La vie est mal faite!  Chacun son truc pour se calmer!
+- Moi, c'est les ricochets!
+- Les ricochets!
+- J'y suis!  Je note tout.
+- Tu notes quoi?
+- Ton fils a bientôt 50 ans.  Et je fais sa compta!
+- A 15 ans, tu lui préparais encore sa brosse à dents! Tout se paye!
+- Alors, Camus, 2e droite
+- C'est pas ça!
+- Non, escalier B, c'était Brossard Ça y est! J'y suis!  Bredoteau, 5e droite.  lls étaient du Pas-de-Calais.
+- Bredoteau C'est tout ce que j'ai à dire!  Musique.
+- Ce garçon qui farfouille sous le photomaton s'appelle Nino Quincampoix.  Amélie fut privée des autres enfants, le petit Nino, lui, s'en serait passé.  Hurlements d'enfants.  Souvent, au même instant, à 9 km de distance, l'un rêvait d'une soeur et l'autre d'un frère, avec qui ils passeraient tout leur temps.  Reprise de la musique.
+- Salut, papa.  Tu t'es fait un nouveau copain?
+- Non, je l'avais depuis longtemps.  Comme ta mère le supportait pas, il était rangé dans la cabane à outils. On va les réconcilier.  Et voilà! Pas mal, hein?
+- Dis-moi, papa.  Si tu retrouvais une chose de ton enfance, un trésor pour toi, ça te rendrait heureux, triste, nostalgique? Ça te ferait quoi?
+- J'avais pas le nain quand j'étais petit.  On me l'a offert pour ma retraite.
+- Non, ce qu'on garde en secret comme si ça avait beaucoup de valeur.
+- ll faudra que je le revernisse avant l'automne.
+- Je vais faire du thé. Tu en veux?
+- On ne bouge plus.
+- Ça va? C'est mieux?  Les os craquent.
+- Les courants d'air!
+- C'est pas la Sibérie.
+- T'es pas allergique à l'oxyde de carbone!  J'ai tant toussé cette nuit que j'ai failli me décoller la plèvre.
+- Mais oui!
+- C'est quoi, aujourd'hui?
+- Des endives au gratin.
+- Elles sont à tomber à genoux.
+- Donc bonnes?
+- Ça dépend où tu tombes C'est vrai, si c'est aux toilettes.
+- Elles sont pas bonnes!
+- Ah ah ah!  Quelqu'un a enregistré son rire.
+- 12 h 15, rire de gorge évoquant l'orgasme pour plaire au mâle dominant.
+- Je réponds plus de rien.
+- C'est vrai, ça.  Pourquoi il insiste?  Y a d'autres bistrots!
+- Au revoir. Madame Suzanne!
+- Oui?
+- Dans vos endives, y a de la béchamel?
+- Oui, et alors?
+- Je digère pas la béchamel.  Comme vous, la viande de cheval.
+- C'est pas une question de digestion mais de souvenir.  Je préférerais encore la viande humaine.
+- Quand même pas!
+- Madame Suzanne?  Je peux finir plus tôt?
+- ll s'appelle comment?
+- Dominique Bredoteau.
+- Bonjour!
+- Dominique Bredoteau?
+- Oui
+- Ben C'est pour la pétition.  C'est pour quoi?
+- La pétition?
+- Oui La pétition pour Pour faire canoniser Lady Di.
+- Ah oui. Ah non, merci!
+- Bonjour!
+- Oui?  Dominique Bredoteau? C'est pour le recensement de l'Union européenne.
+- Montez. 3e étage.  Bonjour, mon chaton.  Earl Grey? Bergamote? Jasmin?  Vous prendrez bien quelque chose?
+- Non. J'ai du travail.
+- Voilà! J'arrive!
+- Bonjour, madame. Je cherche Dominique Bredoteau.
+- Ma pauvre petite dame! Vous le manquez de peu.  Tenez, le voilà qui descend.  Une porte grince.
+- Bretodeau.  Pas Bredoteau.  Vous avez besoin d'un vin chaud à la cannelle. Venez!
+- Depuis 5 ans que j'habite ici, c'est la 1re fois que je vous croise.
+- Je ne sors jamais sur le palier.  J'ai pas envie de rencontrer n'importe qui.  Et y a rien que des cloportes!  Mais entrez. Là. Entrez Vous savez, on m'appelle l'homme de verre.  Mais mon nom, c'est Raymond Dufayel.  Amélie Poulain  Je suis serveuse
+- Aux Deux Moulins, je sais. Et là, vous rentrez bredouille de la chasse au Bretodeau.  Parce que ça n'est pas "do", c'est"to".
+- Merci.  Comme "toto".  J'aime beaucoup ce tableau.
+- C'est "Le Déjeuner des canotiers".  De Renoir.  J'en fais un par an, depuis 20 ans.  Le plus dur, ce sont les regards.  Parfois, ils changent exprès d'humeur, dès que j'ai le dos tourné.
+- Là, ils ont l'air content.
+- lls peuvent!  Cette année, ils ont eu du lièvre aux morilles et des gaufres à la confiture pour les enfants.  Voyons, qu'est-ce que j'ai fait de ce petit papier?  Je vois que vous regardez ma caméra à la fenêtre.  C'est un cadeau de ma belle-soeur.  Oh, je l'ai mis là, comme ça, plus besoin de remonter mes pendules.  Après toutes ces années, le seul personnage que j'ai du mal à cerner, c'est la fille au verre d'eau. Elle est au centre et pourtant, en dehors.
+- Elle est peut-être seulement différente des autres.
+- Et en quoi?
+- Je sais pas.
+- Petite, elle ne devait pas jouer souvent avec les autres enfants.  Peut-être même jamais Tenez.  Dominique Bretodeau. 27, rue Mouffetard.  C'est pour vous.
+- Ce matin, comme tous les mardis, Dominique Bretodeau va acheter un poulet fermier.  En général, il le fait au four avec des pommes sautées.  Après avoir découpé les cuisses, les blancs et les ailes, il décortiquera la carcasse brûlante avec les doigts, en commençant par les sot-l'y-laisse.  Non, Bretodeau n'achètera pas de poulet, aujourd'hui.  ll n'ira pas plus loin que cette cabine téléphonique. Là Le téléphone sonne.  Sonnerie de fin de communication.
+- En une seconde, tout revient à la mémoire de Bretodeau.  La victoire de Bahamontes dans le Tour de France 1959 Les combinaisons de la tante Josette Et surtout, cette journée tragique où il gagna toutes les billes de la classe à la récré.
+- Bretodeau!
+- Bretodeau!  La pince, Bretodeau! ll la connaît, la pince?  Sifflements des enfants.
+- Un cognac, s'il vous plaît.  C'est incroyable, ce qui vient de m'arriver.  Ce doit être mon ange gardien. C'est pas possible autrement.  C'est comme si la cabine m'appelait elle sonnait, elle sonnait Sonnerie.
+- Justement, y a le micro-ondes qui m'appelle!
+- Je peux avoir encore un petit cognac?  C'est drôle, la vie.  Quand on est gosse, le temps traîne et un jour, on a 50 ans.  Et l'enfance, tout ce qu'il en reste, ça tient dans une petite boîte rouillée.  Vous n'avez pas encore d'enfant, mademoiselle?  Moi, j'ai une fille. Elle doit avoir à peu près votre âge.  Ça fait des années qu'on s'est pas parlé.  ll paraît qu'elle a eu un enfant, un garçon.  ll s'appelle Lucas.  ll serait temps que j'aille leur rendre visite avant de finir à mon tour dans une boîte.  Vous croyez pas?
+- Amélie a soudain le sentiment d'être en harmonie avec elle-même.  Tout est parfait : la douceur de la lumière, ce petit parfum dans l'air, la rumeur tranquille de la ville La vie lui paraît si simple et limpide qu'un élan d'amour, comme un désir d'aider l'humanité la submerge tout à coup.
+- Je vais vous aider. On descend et c'est parti!  On croise la veuve du tambour de la fanfare.  Tiens, l'enseigne a perdu une oreille!  Quelqu'un rit.  Le mari de la fleuriste rit.  ll y a des sucettes dans la vitrine!  Vous sentez ce parfum?  Ce monsieur fait goûter ses melons aux clients.  Là, on fait de la glace au calisson!  On passe devant la charcuterie.  Le jambon à l'os est à 79!  On arrive chez le fromager 12,90 le picodon d'Ardèche! Chez le boucher, un bébé regarde un chien, qui regarde les poulets.  Voilà, maintenant on est devant le métro.  Moi, je vous laisse ici, au revoir.  Amélie chantonne.  "Elle n'a jamais su établir de relation avec les autres " "Petite, elle était toujours toute seule".
+- Au soir d'une scintillante journée de juillet, tandis que les estivants s'amusent sur les plages des beaux jours retrouvés et qu'à Paris, les badauds accablés de chaleur contemplent les panaches du feu d'artifice, Amélie Poulain, ou "la marraine des laissés-pour-compte", ou "la madone des mal-aimés" succombe à son extrême fatigue.  Sous les fenêtres d'un Paris accablé de chagrin, des millions d'anonymes en deuil se pressent le long du cortège pour témoigner en silence leur immense douleur d'être désormais orphelin.  Etrange destin que celui de cette jeune femme dépossédée d'elle-même, pourtant si sensible au charme des petites choses de la vie.  Telle Don Quichotte, elle avait résolu de s'attaquer à l'implacable moulin de toutes les détresses humaines.  Combat perdu d'avance qui consuma prématurément sa vie. A 23 ans, Amélie Poulain laissait son existence s'étioler dans les remous du mal universel.  C'est là que l'attendait le regret d'avoir laissé mourir son père, sans qu'elle n'eut jamais donné à cet homme asphyxié la bouffée d'air qu'elle avait su insuffler à tant d'autres.
+- Hé, monsieur!  Hé, monsieur!  Monsieur!  Attendez!  Attendez!
+- Des pages entières de photos d'identités ratées que leurs propriétaires ont rejetées et qu'un hurluberlu a reconstituées et répertoriées.  Tu parles d'un album de famille!
+- Un Gauloises blondes.
+- Y a tellement de fumée. Où elles sont?
+- Plus à gauche.  Je vois rien.
+- Là? Merci.  Encore un peu. Voilà.  Où sont mes 1 F?  Laissez tomber.
+- Une Moresque.
+- Oui, jeune homme.  Un Kir, une Moresque et 2 menthes à l'eau.
+- Roucoulement pré-nuptial
+- Et ta connerie, elle est congénitale?
+- Pré-nuptial.
+- Vous en faites pas.  Vous tomberez sur le bon.  Elles rêvent toutes de dormir sur l'épaule d'un homme.
+- Je dis pas non, mais un homme, ça ronfle.  Moi, j'ai l'oreille musicale!
+- Moi, je me suis fait opérer des cloisons nasales.
+- Quel sens de la romance!
+- On voit que vous n'avez pas connu le grand amour.
+- Si je l'avais pas connu, on m'aurait pas raccourci la jambe droite.
+- C'était pas en cheval?
+- Oui, justement.  J'étais amoureuse d'un trapéziste.  J'aurais dû me méfier, ils vous lâchent au dernier moment!  Lui, il m'a lâchée quand j'entrais en piste.  J'étais toute retournée et du coup, le cheval aussi.  Malheureusement, j'étais dessous!  Allez! La Moresque.
+- Les coups de foudre, ça existe.
+- Je dis pas non. Mais après 30 ans derrière un zing, je peux même vous donner la recette du coup de foudre!  Vous prenez 2 habitués, vous leur faites croire qu'ils se plaisent, ça marche à tous les coups.
+- S'il vous plaît!  S'il vous plaît!
+- Non!
+- J'y vais.  Vous pensez pas que vous avez fait assez de mal comme ça?
+- Gina est assez grande pour se défendre toute seule.
+- C'est pas à Gina que je pense, mais à Georgette.
+- Georgette?
+- Ouvrez les yeux! Elle vous espère et vous n'en avez que pour Gina!  La pauvre! Regardez ce qu'elle fait pour essayer d'attirer votre attention.  Vous êtes aveugle!
+- Je file, j'ai rendez-vous. Salut!
+- Au revoir.
+- Au revoir.  Je sais pas comment sera le nouveau, mais ce sera jamais pire que l'autre timbré avec son magnétophone.
+- Joseph est pas si timbré que ça.  ll souffre, c'est tout.
+- Ça fait 2 mois que c'est fini entre eux, et il vient tous les jours. ll aime souffrir!
+- Ne me dites pas que vous vous êtes rendu compte de rien.
+- A quel niveau?
+- ll s'assoit toujours là?
+- Ben oui.
+- Asseyez-vous.  Asseyez-vous, Georgette.  Vous voyez quoi, là?
+- Mon tabac.
+- Et il manque rien?
+- Ben non.
+- Faites un effort.
+- Ben non. Y a pas, je vois pas!
+- Je vous laisse réfléchir. Bonne nuit.  Bonjour "Une octogénaire suisse a reçu une lettre 30 ans après.  "Le courrier a été découvert par des alpinistes sur le Mont-Blanc, " dans un sac du Malabar Princess, un avion victime d'un crash à la fin des années 60".
+- Quel malheur! Une princesse jeune et jolie
+- Vieille et moche, ça aurait été moins grave?
+- Oui, regardez Mère Thérésa.  Et lui? ll court toujours après Gina?
+- Non, après quelqu'un d'autre.
+- Dites-moi, c'est quelqu'un que je connais?
+- Oui. C'est drôle, cette histoire de glacier.
+- C'est aux Deux Moulins? C'est quand même pas vous!
+- Non!
+- C'est pas Mme Suzanne Non!
+- Si!  Regardez, il est encore là.
+- Mais oui, c'est étrange.
+- Et ici.
+- "Toujours lui".  Gare de Lyon.
+- Et ici, encore.  5 mars, Austerlitz.
+- Et toujours la même expression.  Hein? Aussi neutre.
+- 12 fois en tout.  J'ai compté. C'est quand même bizarre.  Pourquoi aller se faire photographier aux 4 coins de la ville, et jeter les clichés?
+- Surtout qu'ils sont en parfait état.
+- On dirait une sorte de rituel.
+- ll est peut-être obsédé par la peur de vieillir que c'est ce qui le rassure.
+- C'est un mort!
+- Un mort?
+- ll a peur de basculer dans l'oubli.  ll se sert des photomatons pour rappeler son visage aux vivants.  Comme s'il faxait son image depuis l'au-delà.
+- Un mort qui aurait peur de basculer dans l'oubli Pour eux, en tout cas, c'est gagné!  lls sont morts depuis longtemps.  Mais ils ne basculeront jamais dans l'oubli.  Vous savez, la fille au verre d'eau, elle pense peut-être à quelqu'un.
+- A quelqu'un du tableau?
+- Non.  Plutôt un garçon qu'elle a croisé ailleurs.  Elle a l'impression qu'ils sont pareils, elle et lui.
+- Elle préfère imaginer une relation avec quelqu'un d'absent, que de créer des liens avec ceux qui sont présents?
+- Non Peut-être même qu'elle fait tout pour arranger la vie des autres.
+- Mais elle?  La sienne, de vie, qui va s'en occuper?
+- En attendant, mieux vaut se consacrer aux autres qu'à un nain de jardin.
+- 2,8 g d'alcool dans le sang pour un chauffeur!  Je suis pas le seul à employer un crétin irresponsable.
+- M. Collignon.
+- Minute!  Vos clés Faut pas se presser!  Prenez exemple sur Lucien.  Lui, au boulot, il risque pas d'être pris au radar! Pas vrai?
+- Vous devriez pas, M. Collignon.  C'est pas sa faute.
+- Vous avez raison.  C'est pas de sa faute, c'est celle de Lady Di!  Vous savez ce que j'ai découvert ce matin, le catalogue des 3 Suisses ouvert à la page des nuisettes.  ll avait mis la photo de la princesse sur le corps des pin up.  Alors, ce coup-ci, c'est une botte d'asperges, ou les archives du quartier?
+- Rien.
+- Merci. Alors, on dirait que ça va mieux, vos migraines.
+- Oui, mais j'ai pas dormi à cause de ma sciatique.
+- Vous avez bonne mine!
+- Ah bon?
+- Une femme sans amour, c'est une fleur sans soleil. Ça dépérit.
+- Quel temps bizarre, aujourd'hui!  J'ai dit une bêtise?
+- Non. Tout le monde me dit la météo.
+- Parler du temps qu'il fait pour oublier qu'il passe.
+- Non, pour éviter de dire des foutaises.
+- On peut les écrire, mais pas les éditer
+- 30e refus.
+- Toujours pas?
+- Et votre cousin critique?
+- Pensez-vous!  Ce sont des cactus qui vivent de leurs piquants
+- Et votre livre?  C'est une histoire d'amour?
+- Non, c'est l'histoire d'un type qui écrit son journal.  Mais au lieu d'écrire au fur et à mesure, il écrit la version catastrophe à l'avance.  Du coup, ça le déprime, et il fait rien.
+- C'est l'histoire d'un type qui fait rien.
+- Tenez, Mme Suzanne, je vous dédicace le manuscrit.
+- Oui, et vous passez l'éponge sur son ardoise.
+- J'échange ses chefs-d'oeuvre contre mes hors-d'oeuvre!
+- Voilà.
+- Merci.
+- Merci, Mme Suzanne.
+- Combien de temps ça t'a pris?  T'as vu l'heure? Alors celui-là, il a été fini au pipi!  "Sans toi, mes émotions d'aujourd'hui ne seraient "
+- "Sans toi, les émotions d'aujourd'hui " ne seraient que la peau morte " des émotions d'autrefois".
+- Pardon?
+- Sans toi, les émotions d'aujourd'hui ne seraient que la peau morte des émotions d'autrefois.
+- Ticket, s'il vous plaît.
+- Et Ton travail, alors?
+- Tu m'as déjà posé la question.
+- Oui, oui Tu vas bien, en ce moment?
+- Plutôt bien.  Quelque chose change.  Et j'ai eu 2 crises cardiaques, j'ai dû me faire avorter, j'avais pris du crack enceinte.  En dehors de ça, tout va bien.
+- Tant mieux.  Tant mieux
+- Y a quelque chose qui va pas?
+- Non, non, rien
+- Ton nain de jardin est plus là?  ll est retourné dans la cabane à outils?
+- Moscou et voilà. Rien.  Pas d'explication.
+- ll avait peut-être envie de voir du pays.
+- Je ne comprends pas.  Je ne comprends pas.
+- Une fille normale prendrait le risque de l'appeler tout de suite.  Elle le verrait et saurait vite si ça vaut le coup ou non.  Ça s'appelle se confronter à la réalité. Mais ça, justement, Amélie n'y tient pas du tout.
+- Elle serait pas en train de tomber amoureuse?  Un réveil sonne.
+- Et vous, mesdames?  lls chuchotent tous.
+- Des poireaux et 2 artichauts.
+- Où est le patron?  La concierge parle fort.
+- Chut!  ll dort dans les choux-fleurs.
+- Quoi?!?
+- ll dort dans les choux-fleurs.
+- Ah bon Joseph tousse.
+- Vous me désirez?
+- Un Tac-O-Tac, s'il vous plaît.
+- Voilà.
+- C'est la 1re fois, je sais pas comment on fait.
+- Écoutez voir, on va en faire un ensemble.  Alors, il faut gratter là de manière latérale.  Voilà. Ben, rien. Et vous?
+- Non, rien non plus.  Malheureux au jeu
+- Et oui! C'est ce qu'on dit!
+- Bon allez! Faut que j'y retourne.
+- Oui. Allez
+- Palace Vidéo, roi du porno.
+- Bonjour, j'appelle pour l'annonce.
+- Oui.
+- Vous êtes majeure?
+- Pardon?  * Vous êtes épilée?
+- Je vous demande ça parce que le tablier de sapeur, ça rebute le client.
+- Ça va, Mme Walace?
+- Quand on attend plus rien de la vie
+- C'est beau, la vie.
+- Ah ouais?
+- Bonjour, M. Dufayel.
+- Bonjour, Lucien.
+- Voilà ce que vous m'avez demandé, M. Dufayel.
+- J'ai horreur des artichauts.
+- Vous avez tort. Laissez-moi vous montrer.  Prenez-le Surprise!
+- Ben, je préfère ça!
+- Attention
+- Tu es un magicien!
+- Aux frais de M. Collignon!
+- De?  M. Collignon? Lucien!
+- J'ai pas fait attention, M. Dufayel.
+- Exercice, mon petit Lucien!
+- Non
+- Exercice!
+- Répète après moi. Collignon, crêpe chignon.
+- Collignon, crêpe chignon.
+- C'est ça!  A toi, maintenant. Collignon
+- Collignon, face de fion.
+- Ah, voilà!  Tu vois, quand tu veux. Allez, Collignon
+- Collignon, tête à gnons!
+- Très bien! Collignon
+- Collignon, face de fion! Collignon, tête à gnons!  Collignon, face de fion! Collignon, tête à gnons!  Non, non!
+- Collignon mange des oignons!
+- Lucien!  Ça va pour aujourd'hui!  Ça suffit pour aujourd'hui.  C'est très bien.
+- M. Dufayel. J'ai trouvé ça sous votre paillasson.  Collignon, face de fion!  lls grattent des jeux.
+- Toujours rien.
+- Toujours rien non plus.
+- Vous permettez? Vous avez quelque chose, là.  Vous êtes belle, Georgette, quand vous rougissez.  On dirait une fleur des champs.
+- C'est mon aérophagie
+- Bonjour, tout le monde.  ll fait beau, aujourd'hui.
+- Un Gitane
+- Bravo! Vive la France! Me voilà ébouillantée!  20 sur 20! En plein dans le mille!  C'est Amélie qui m'a
+- Vous savez, quand ils ont fait le Mont-Blanc, avec le froid, le silicone a gelé Georgette et Joseph gémissent de plus en plus fort.  Georgette hurle!
+- Un petit vin chaud avec des Speculoos.
+- Merci.
+- Je crois que j'ai été un peu dur avec la fille au verre d'eau.  Racontez-moi, le garçon qu'elle a croisé, elle l'a revu?
+- Non.  En fait, ils s'intéressent pas aux mêmes choses.
+- La chance, c'est comme le Tour de France, on l'attend longtemps et ça passe vite.  Quand le moment vient, faut sauter la barrière sans hésiter.
+- Bonjour, je peux vous aider?
+- Excusez-moi.  J'ai trouvé ça dans la rue
+- Ça alors!  C'est Nino qui va être content.  J'ai failli aller mettre un cierge à Saint Antoine.
+- Nino est là?
+- Jamais le mercredi. ll est à la foire du Trône.
+- Ah bon. Et ça fait longtemps qu'il fait cette collection?
+- Depuis un an. Je l'ai fait rentrer ici.  Avant, c'était les empreintes de pas.  ll était veilleur de nuit.  ll photographiait les empreintes de pas dans le ciment frais.  C'est un drôle d'oiseau.  ll a aussi fait le Père Noël à la Samaritaine.  Et puis, il a aussi enregistré les rires qu'il trouvait rigolos.  Elle hurle de rire.
+- Pour sa petite amie, ça doit pas être facile tous les jours.
+- ll a jamais su en garder une!  Les temps sont durs pour les rêveurs.
+- C'est pour quand, ces cafés, Eva?
+- J'y vais. Merci pour l'album.
+- Je vais lui amener à la foire du Trône.
+- A la chenille des Carpates, c'est Nino Quincampoix.  Cris et bruits de manèges.
+- Bonjour. Nino est là?
+- ll sort pas avant 19 h.
+- Y a pas moyen de le voir avant?
+- Si.  C'est 20 F.  Hurlements de fantômes.
+- Hououououou Houououou
+- J'y vais. A mercredi.
+- D'accord.
+- Psst!  Tu voudrais en savoir plus?
+- Vous l'avez vue?
+- Bien sûr.  On était dans sa poche!
+- Contre son sein.
+- Elle est jolie?
+- Pas mal.
+- Pas mal.
+- Pas mal.
+- Belle.
+- Jolie.
+- Non, belle.
+- Jolie.
+- Elle me veut quoi?
+- Elle est fauchée.  Elle espère une récompense.
+- Ou elle fait la même collection.
+- Oui, elle veut nous échanger contre un borgne à lunettes!  Mais non, crétin!
+- Je la connais même pas.  Elle est amoureuse.
+- Mais si, tu la connais!
+- Depuis quand?
+- Depuis toujours.  Dans tes rêves!  Le téléphone sonne.
+- Allô? Oui. Monsieur!  Monsieur avec le sac en plastique, c'est pour vous.
+- Moi?
+- Oui.
+- Merci.  Allô?
+- Suivez les flèches bleues, M. Quincampoix.
+- Hein?
+- Quand le doigt montre le ciel, l'imbécile regarde le doigt.
+- Hé!  Le téléphone sonne.
+- Allô?
+- Je sais qui est l'inconnu des photomatons, M. Quincampoix.  C'est un fantôme, M. Quincampoix. Nul ne peut le voir.  ll n'apparaît que sur la surface de la pellicule.  * Quand les jeunes filles se font faire le portrait, il leur dit : hououou En leur caressant tout doucement la nuque.  C'est là qu'il se fait prendre, M. Quincampoix!
+- Vous êtes qui?
+- Page 51.  Musique.
+- Écoutez ça.  "Un garçon de 6 ans a profité de la nuit pour partir " dans sa voiture à pédales.  "ll a été retrouvé sur une autoroute en Allemagne.  ll voulait juste aller voir les étoiles".
+- C'est beau, la vie, quand même!
+- Elle avait pas encore attrapé de coup de foudre!
+- Personne n'est à l'abri.
+- Moi, ça me fait des vacances.
+- Ça lui donne bonne mine.
+- Elle est comment? Grande, petite , blonde, brune?
+- Disons de taille moyenne.  Pas une naine ni une girafe. Normale, quoi.  Jolie dans son genre.  Sinon, blonde ou brune, alors là!  C'est difficile à dire. Mais elle était pas rousse.  Encore que
+- Laisse tomber.
+- Par contre, elle a cherché à savoir si t'avais une petite amie.
+- Et?
+- J'ai dit que ça t'intéressait pas. J'ai bien fait?
+- T'as pas dit ça?
+- Tu la connais même pas!
+- Justement, c'est le mystère.
+- Tu le trouveras pas ici!
+- Des brugnons, s'il te plaît.
+- Ceux-là sont bien plus beaux.
+- Monsieur est un esthète!  Le soir, il repart avec des invendus, je commençais à m'inquiéter.  Mais Monsieur prend des cours de dessins!  Le jour, il vend des poireaux, et le soir, il dessine des navets!  Espèce de légume!
+- Un bon souffleur de rue prêt à vous glisser une répartie cinglante, voilà ce qu'il faut pour aider les timides.
+- Vous, vous ne risquez pas d'être un légume, puisque même un artichaut a du coeur.
+- Vous ne risquez pas d'être un légume, même un artichaut a du coeur.  Les gens éclatent de rire.
+- Mémoire 7 "Mado chérie, ton absence devient chaque jour plus pénible.  Je suis en exil dans un monde kaki. Je ne dors plus, je ne mange plus".  "J'ai commis la pire erreur en acceptant ce stage " qui va me priver de ma femme pendant 5 semaines.  Je pense sans cesse à toi. Ton Adrien".  "J'ai renoncé à l'argent de ma dernière commission " histoire de compenser de ma démission abrupte.  "Je me prends à rêver à des jours meilleurs.  "Des jours orange. Tu te souviens, Madeleine chérie?  Ton Adrien qui ne t'a jamais tant aimé".  "Bonne nouvelle. Je vais bientôt pouvoir m'acheter une voiture.  "Je pourrai rentrer à la maison tous les jours.  "En attendant, j'espère que tu viendras vendredi soir et que nous pourrons sortir tous les deux".
+- Urgences psychiatriques, j'écoute.
+- Une heure plus tard, boulevard Saint-Martin Amélie entre dans un magasin de farces et attrapes et déguisements.  Au même instant, un homme quitte son domicile rue Lecourbe.  26 minutes plus tard, Amélie arrive au photomaton de la gare de l'Est.  A la même seconde, l'homme aux baskets rouges stationne devant l'entrée latérale.  A cet instant, il est exactement 11 heures et 40 minutes.  A ce moment précis de l'histoire, Amélie est la seule à connaître la clé de l'énigme de l'inconnu des photomatons.
+- Bonjour, Mme Walace. Ça va?
+- Toujours mieux quand il pleut pas.
+- Tenez, pour vous.
+- Pour moi?  "Madame Walace.  "Suite à la découverte récente d'un sac postal égaré " dans la disparition d'un avion, le 12 octobre 1969.  "La Poste a le plaisir de vous envoyer une lettre " qui vous était destinée. Veuillez recevoir, Mme Walace, " toutes nos excuses pour ce retard inhabituel.  Jacques Grosjean. Directeur des relations publiques".  "Mado chérie.  "Je suis en exil, je ne dors plus. Je pense sans cesse à toi.  "J'ai commis la pire erreur de mon existence.  "J'ai renoncé à l'argent et à cette femme.  Si tout va bien, je pourrai bientôt acheter une maison".  "Je me prends à rêver à des jours meilleurs, " que tu me pardonneras et que tu viendras me rejoindre.  Ton Adrien qui ne t'a jamais tant aimée".
+- Tenez, M. Dufayel, du courrier pour vous.  M. Dufayel, vous savez ce qui est arrivé à la concierge, ce matin?
+- Une lettre.
+- De son mari. Avec 40 ans de retard.  Ça fait beaucoup quand même, hein, M. Dufayel?  C'est parce que j'aime pas trop les natures mortes, M. Dufayel.
+- En attendant, soigne ta couche maigre.  C'est gras sur maigre, toujours!
+- Oui!
+- M. Dufayel?
+- Les journaux disent qu'il va bientôt y avoir une nouvelle étoile.
+- Tu t'intéresses aux étoiles?
+- J'ai vu une émission de télé chez ma maman, c'est pour ça.  Mais je sais pas si c'est vrai.  C'est les Américains lls vont prendre les cendres des riches incinérés, pour les mettre dans un satellite, et l'envoyer dans l'espace.  Et il va briller pour toujours, le satellite.  Et Lady Di? lls vont faire pareil pour elle?
+- Lady Di!  Tu me fatigues à la fin! J'arrive plus à me concentrer!  Lady Di Renoir!
+- Bonjour, monsieur.
+- Le Cambodge Je comprends pas ça.  Je ne comprends pas!
+- C'est épatant! Tu pouvais pas faire mieux.
+- Ça suit son cours.
+- Ça a donné quelque chose?
+- Quand tu veux, le mal est fait.
+- Quoi?
+- On m'appelle Blanche-Neige, maintenant!
+- Eva?
+- Oui?
+- Tu pourrais me remplacer à la caisse à 16 h, s'il te plaît?
+- Oh, t'exagères!
+- Qu'est-ce qu'il a?  ll boude?
+- ll trouve que je souris trop.
+- ll préfère renfrogné?
+- Avec les hommes, oui.
+- Nino est en retard. Pour Amélie, il n'y a que 2 explications possibles.  1. ll n'a pas trouvé la photo.  2. ll n'a pas pu la reconstituer car 3 truands multi-récidivistes l'ont pris en otage.  Poursuivis par la police, ils l'ont semée.  Mais lui a provoqué un accident.  Quand il a repris conscience, il ne se souvenait de rien.  Un routier l'a pris en stop et le croyant en cavale, l'a mis dans un container pour Istanbul.  Là, il est tombé sur des aventuriers afghans, qui l'ont emmené avec eux voler des missiles soviétiques.  Mais leur camion a sauté sur une mine au Tadjikistan.  Seul survivant, il a été recueilli par des montagnards, et il est devenu militant moudjahidin.  Amélie ne va donc pas se mettre dans un tel état pour un type qui va finir sa vie à manger du bortsch, avec un stupide cache-pot sur la tête!
+- Bonjour, vous prendrez?
+- Un café, s'il vous plaît.
+- Un café!  Voilà le petit café.
+- Merci.
+- Maintenant, il a compris.  ll va reposer sa petite cuillère Et ramasser le sucre sur la table avec son doigt.  Puis il va se retourner et là, il va me parler.
+- Excusez-moi!  C'est vous?  Si, c'est vous, ça.  On n'entend pas ce qu'elles disent.
+- Je vais vous débarrasser.  Un autre café?
+- Non, merci. Ça ira.
+- Alors c'est l'autre, là, le type qui lève la main?
+- Oui.
+- Elle est amoureuse de lui?
+- Oui.
+- Le moment est venu pour elle de prendre un vrai risque.
+- Justement, elle y pense. Elle réfléchit à un stratagème
+- Elle aime bien ça, les stratagèmes!
+- Oui.  elle est un peu lâche.  C'est pour ça que j'ai du mal à saisir son regard.
+- Vous faites quoi, M. Dufayel?
+- Dis-moi, mon petit Lucien, pour tes livraisons, tu as toujours les clés des autres locataires?
+- Bonjour, monsieur. Un de vos appareils est en panne.  Heu Non, mais je crois qu'un truc est coincé.  Gare de l'Est, salle des pas perdus.
+- 10 achetées, 1 gratuite.
+- Non, merci.
+- Sam!  Samantha!  Samantha!  Musique.
+- Tu peux me remplacer Musique.
+- Un instant, j'ai terminé.
+- L'inconnu des photomatons n'était pas un revenant, ni un obsédé par la peur de vieillir, mais un réparateur.  Un simple technicien qui faisait son boulot. C'est tout.
+- Pardon
+- ll n'arrête pas de me surveiller. Ça me rend malade.
+- 16 h 05, manifestation publique de conspiration féminine.
+- Oh, dis donc, ma Georgette, t'es tendue.  Courage, c'est pas facile.
+- Excusez-moi.  C'est de vous?
+- Oui, mais c'est pas moi
+- Je sais. Où je peux la trouver?
+- Elle est chez son père.  Ça m'ennuie, je voudrais vous parler. Je termine à 18 h.  Vous pouvez repasser?
+- D'accord.
+- A tout à l'heure.
+- Et voilà, 16 h 08. Arrimage programmé.
+- Et le blond avec une veste en poil de chameau?  ll est distrait, lui aussi?
+- Quoi, "lui aussi"?
+- Lui aussi est revenu 3 fois.  13 h 12 14 h 50 "Poil de chameau".  "Poil de chameau".  16 h 17 "Poil de chameau"
+- Arrête!  Mes plaques rouges recommencent. Regardez!  Mme Suzanne, ça recommence! ll va me rendre dingue!
+- Ne recommencez pas!
+- Si elle avait la conscience tranquille, elle s'énerverait pas.
+- Je rentre chez moi!  Alors là, un psychopathe! C'est le pompon!
+- Georgette!  Vous avez fini de les étouffer comme ça?  Une femme, faut que ça respire.
+- Oui et après, elle veut changer d'air.
+- C'est salutaire!
+- Oh toi, l'écrivain raté!
+- Oui Écrivain raté, destin raté J'aime ce mot : "raté".  C'est ça, la destinée humaine.
+- ll se gargarise!  De ratages en ratages, on ne dépasse plus le brouillon.  La vie n'est qu'une interminable répétition.
+- Tu parles! C'est même pas de lui, ça!
+- J'ai quand même des idées à moi.  On me les pique toujours. Un peu comme toi avec les femmes.
+- Ça veut dire quoi?
+- Tu devrais peut-être te faire une raison.
+- Parle pour toi, espèce de
+- Espèce de quoi, hein?!?
+- Arrêtez!
+- Qu'est-ce qui se passe, ici?
+- Georgette a voulu prendre l'air et Joseph en fait un Paris-Brest!
+- Prendre l'air!  Oui, comme Gina avec le type au sac en plastique Attends, j'ai vu la manoeuvre.  D'abord le mot dans la veste.  A 16 h 08. Du coup, le mec revient aujourd'hui et hop!  lls vont prendre l'air.
+- Le problème, c'est que vous m'êtes sympathique.
+- C'est-à-dire?
+- Plus je trouve un gars sympa, moins il est structuré mentalement.  Je voudrais en savoir plus.
+- Posez-moi des questions.
+- Qu'est-ce que ne fait pas une hirondelle?
+- Une hirondelle? Le printemps.
+- Et l'habit?
+- Le moine.
+- A bon chat
+- Bon rat.
+- Petit à petit
+- L'oiseau fait son nid.
+- Pierre qui roule
+- N'amasse pas mousse.
+- Qui vole un oeuf
+- Vole un boeuf.
+- Coeur qui soupire
+- N'a pas ce qu'il désire.
+- Pas mal!
+- Encore?
+- Je crois que celui qui connaît les proverbes ne peut être mauvais.
+- Oh, la jolie petite demoiselle du 5e!  Faut que je vous raconte. Vous croyez aux miracles?
+- Pas aujourd'hui, non.
+- Vous allez être surprise.  Une expédition d'alpinistes dans le Mont-Blanc à découvert
+- Bonjour, Lucien. De la levure.
+- C'est pour Mlle Amélie?
+- Oui.
+- Elle est aux fourneaux, hein? Collignon, va chercher.  On sonne à la porte.
+- Amélie? Amélie?  Amélie?  Le téléphone sonne.
+- Allez dans la chambre, Mlle Poulain.  Voilà Ma petite Amélie Vous n'avez pas des os en verre, vous pouvez vous cogner à la vie.  Si vous laissez passer cette chance, alors avec le temps, c'est votre coeur qui va devenir aussi sec et cassant que mon squelette.  Alors Allez-y! Nom d'un chien!
+- Je
+- Hé!
+- A l'aéroport international.
+- Nous sommes le 28 septembre 1997, il est 11 h du matin.  A la foire du trône, la machine à malaxer la guimauve malaxe la guimauve.  Au même instant, au square La Villette, Félix L'Herbier découvre que le nombre de connexion dans un cerveau humain est supérieur au nombre d'atomes dans l'univers. Pendant ce temps, au pied du Sacré-Coeur, les Bénédictines soignent leur revers.  La température est de 24°, le taux d'humidité de 70° et la pression atmosphérique de 990 hectopascals.
+    </div>
+  </body>
+</html>
