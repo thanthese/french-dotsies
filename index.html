@@ -1,14 +1,18 @@
 <html>
   <head>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="underscore-min.js"></script>
     <style type="text/css">
 
       .original-script { display: none; }
 
       .box {
         float: left;
-        margin: 0.5em;
+        margin: 0.2em;
       }
+
+      /* .english-word { display: none; } */
+      div.english-word:hover { background-color: blue; }
 
       .level-1 { color: blue; }
       .level-2 { color: red; }
@@ -16,7 +20,7 @@
 
     </style>
 
-    <script type="text/javascript">
+    <script>
 
       var dict =
         { "a": "1"
@@ -26,19 +30,34 @@
 
     </script>
 
-    <script type="text/javascript">
+    <script>
 
       function originalScript() { return $('.original-script')[0].innerHTML }
 
-      function addBoxToLine(frenchWord, level) {
+      function addBoxToLastLine(frenchWord, level) {
         var box = _buildBox(frenchWord, translate(frenchWord), level)
         $(".line:last").append(box)
+      }
+
+      function addLine() {
+        $(".all-text").append("<div class=\"line\"></div>")
       }
 
       function translate(frenchWord) {
         var englishWord = dict[_cleanWord(frenchWord)]
         return englishWord ? englishWord : ""
       }
+
+      function main() {
+        var firstLine = _splitIntoLines(originalScript())[1]
+        addLine()
+        _( _splitIntoWords(firstLine) ).each( function(word) {
+          console.log(word)
+          addBoxToLastLine("a", 1) })
+        console.log("done")
+      }
+
+      $(main)
 
       /***  pure functions (prefixed with '_')  ***/
 
@@ -95,11 +114,8 @@
   </head>
   <body>
 
-    <div class="all-text">
-      <div class="line"></div>
-    </div>
+    <div class="all-text"></div>
 
-    <div class="dotsies-text"></div>
     <div class="original-script">
 - Le 3 septembre 1973 à 18 h 28 min et 32 s, une mouche bleue de la famille des Calliphoridés, pouvant produire 14,670 battements d'ailes à la minute se posait rue Saint-Vincent, à Montmartre.  A la même seconde, à la terrasse d'un restaurant, le vent s'engouffrait sous une nappe, faisant danser les verres sans que personne ne s'en aperçoive.  Au même instant, au 5e étage du 28, avenue Trudaine dans le 9e, Eugène Koler, après l'enterrement de son ami, Émile Maginot, en effaçait le nom de son carnet d'adresse.  Toujours à la même seconde, pourvu d'un chromosome X de M. Raphaël Poulain atteignait l'ovule de Mme Poulain, née Amandine Fouet.  9 mois plus tard naissait Amélie Poulain.
 - Le père d'Amélie, ancien médecin militaire, travaille aux établissements thermaux d'Enghien-les-Bains.  Raphaël Poulain n'aime pas pisser à côté de quelqu'un.  ll n'aime pas surprendre sur ses sandales un regard de dédain Sortir de l'eau et sentir coller son maillot de bain.  Raphaël Poulain aime arracher de grands morceaux de papier peint.  Aligner ses chaussures et les cirer avec soin.  Vider sa boîte à outils, bien la nettoyer, et tout ranger, enfin.  La mère d'Amélie, Amandine Fouet, institutrice originaire de Gueugnon, a toujours été instable et nerveuse.  Elle n'aime pas avoir les doigts plissés par l'eau chaude.  Etre, par quelqu'un qu'elle n'aime pas, effleurée de la main.  Avoir les plis des draps imprimés sur la joue le matin.  Elle aime les costumes des patineurs artistiques sur TF1.  Faire briller le parquet avec des patins.  Vider son sac à main bien le nettoyer, et tout ranger, enfin.  Amélie a 6 ans.  Elle aimerait que son père la serre dans ses bras de temps en temps.  Mais ils n'ont de contact qu'au cours de l'examen médical mensuel.  La fillette, bouleversée par cette intimité, ne peut empêcher son coeur de battre la chamade.  Dès lors, son père la croit victime d'une anomalie cardiaque.  A cause de cette maladie fictive, elle ne va pas à l'école.  Sa mère lui tient lieu de préceptrice.
