@@ -6,6 +6,7 @@
     <style type="text/css">
 
       .original-script { display: none; }
+      .original-script-full { display: none; }
 
       .box {
         float: left;
@@ -13,7 +14,12 @@
       }
 
       /* .english-word { display: none; } */
-      div.english-word:hover { background-color: blue; }
+      .english-word {
+        background-color: blue;
+        padding: 1em;
+      }
+
+      /* .english-word:hover { background-color: blue; } */
 
       .level-1 { color: blue; }
       .level-2 { color: red; }
@@ -22,14 +28,29 @@
     </style>
     <script>
 
+      // Some notes on terminology.
+      //
+      // The movie script is embedded into the page ('div.original-script')
+      // as a series of lines.  Each line begins with "- ".
+      //
+      // The text is rendered as a series of lines ('div.line').  A line is
+      // made up of a series of boxes ('div.box').
+      //
+      // A box has french word on top ('div.french-word') that contains
+      // punctuation, a potentially hidden english word on the bottom
+      // ('div.english-word') that does not, and a level describing how
+      // difficult the word is.  Less frequently used words are considered to
+      // be more difficult
+
       function originalScript() { return $('.original-script')[0].innerHTML }
 
+      // french word should not be clean (we'll need to write the punctuation)
       function addBoxToLastLine(frenchWord, level) {
         var box = _buildBox(frenchWord, translate(frenchWord), level)
         $(".line:last").append(box)
       }
 
-      function addLine() {
+      function addEmptyLine() {
         $(".all-text").append("<div class=\"line\"></div>")
       }
 
@@ -40,11 +61,15 @@
 
       // main
       $(function() {
-        // var firstLine = _splitIntoLines(originalScript())[1]
-        // addLine()
-        // _( _splitIntoWords(firstLine) ).each( function(word) {
-        //   console.log(word)
-        //   addBoxToLastLine("a", 1) })
+        var text = originalScript()
+        var freqs = _wordFreqs(text)
+        var levels = _levels(freqs)
+        _.each(_splitIntoLines(text), function(line) {
+          addEmptyLine()
+          _.each(_splitIntoWords(line), function(word) {
+            addBoxToLastLine(word, _wordLevel(freqs, levels, _cleanWord(word)))
+          })
+        })
       })
 
       /***  pure functions (prefixed with '_')  ***/
@@ -58,7 +83,8 @@
       function _buildBox(frenchWord, englishWord, level) {
         return "<div class=\"box\"> "
           + "<div class=\"french-word\">" + frenchWord + "</div> "
-          + "<div class=\"english-word level-" + level + "\">" + englishWord + "</div> "
+          + "<div class=\"english-word level-" + level + "\">"
+            + englishWord + "</div> "
           + "</div>"
       }
 
@@ -107,22 +133,40 @@
         return _.chain(freqs).values().uniq().sort().reverse().value()
       }
 
+      // Return the word's level.
+      function _wordLevel(freqs, levels, word) {
+        return _.indexOf(levels, freqs[word])
+      }
+
       /***  testing  ***/
 
+      // equality assertion
       function eq(comment, a, b) {
-        console.log(
-          a == b
+        return ( a == b
           ? "."
           : "fail: " + comment + ".  " + a + " != " + b)
       }
 
+      function showResults(results) {
+        var passed = _.filter(results, function(n) { return n == "." })
+        var failed = _.filter(results, function(n) { return n != "." })
+
+        console.log("Failed: " + failed.length)
+        console.log("Passed: " + passed.length)
+
+        _.each(failed, function(n) { console.log(n) })
+      }
+
       function runTests() {
-        eq("_cleanWord", _cleanWord("\".,HELLO.,'"), "hello")
-        eq("_wordFreqs, a", _wordFreqs(".,a a., b a")["a"], 3)
-        eq("_wordFreqs, b", _wordFreqs(".,a a., b a")["b"], 1)
-        eq("_levels",
-          _levels({a: 1, b: 12, c: 24}).toString()
-          , [24, 12, 1].toString())
+        showResults(
+          [ eq("_cleanWord", _cleanWord("\".,HELLO.,'"), "hello")
+          , eq("_wordFreqs, a", _wordFreqs(".,a a., b a")["a"], 3)
+          , eq("_wordFreqs, b", _wordFreqs(".,a a., b a")["b"], 1)
+          , eq("_levels",
+            _levels({a: 1, b: 12, c: 24}).toString()
+            , [24, 12, 1].toString())
+          , eq("_wordLevel", _wordLevel({a: 5, b: 3}, [2, 3, 5, 8], "a"), 2)
+          ])
       }
 
       runTests()
