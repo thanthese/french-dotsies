@@ -13,6 +13,8 @@
         margin: 0.2em;
       }
 
+      .line { clear: both; }
+
       /* .english-word { display: none; } */
       .english-word {
         background-color: blue;
@@ -78,7 +80,12 @@
       function _splitIntoLines(text) { return text.split("\n- ") }
 
       // punctuation may be attached to words
-      function _splitIntoWords(text) { return text.split(" ") }
+      function _splitIntoWords(text) {
+        return _.chain(text.split(" ") )
+          .map(_trim)
+          .reject(function(w) { return w == "" || w == "-" })
+          .value()
+      }
 
       function _buildBox(frenchWord, englishWord, level) {
         return "<div class=\"box\"> "
@@ -138,6 +145,16 @@
         return _.indexOf(levels, freqs[word])
       }
 
+      function _trim(str) {
+        // src: http://blog.stevenlevithan.com/archives/faster-trim-javascript
+        // this is trim 12
+        var str = str.replace(/^\s\s*/, '')
+        var ws = /\s/
+        var i = str.length
+        while(ws.test(str.charAt(--i)));
+        return str.slice(0, i + 1);
+      }
+
       /***  testing  ***/
 
       // equality assertion
@@ -166,6 +183,17 @@
             _levels({a: 1, b: 12, c: 24}).toString()
             , [24, 12, 1].toString())
           , eq("_wordLevel", _wordLevel({a: 5, b: 3}, [2, 3, 5, 8], "a"), 2)
+          , eq("_splitIntoWords, length",
+            _splitIntoWords("- hello.,  too.,  the., - - ..word..").length,
+            4)
+          , eq("_splitIntoWords, 0",
+            _splitIntoWords("- hello.,  too.,  the., - - ..word..")[0],
+            "hello.,")
+          , eq("_splitIntoWords, 3",
+            _splitIntoWords("- hello.,  too.,  the., - - ..word..")[3],
+            "..word..")
+          , eq("_trim, not empty", _trim("  hello  "), "hello")
+          , eq("_trim, empty", _trim("  "), "")
           ])
       }
 
