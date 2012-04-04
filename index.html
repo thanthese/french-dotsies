@@ -29,14 +29,30 @@
       .line { clear: both; }
       hr { margin: 1em 10em 5em 3em; }
 
+      .french-word { color: #333; }
+
       .english-word {
         font-size: 0.7em;
         text-align: center;
+        color: #999;
       }
 
-      .level-1 { background-color: blue; }
-      .level-2 { background-color: red; }
-      .level-3 { background-color: green; }
+      .level-1 { background-color: #FFF; }
+      .level-2 { background-color: #EEE; }
+      .level-3 { background-color: #DDD; }
+      .level-4 { background-color: #CCC; }
+      .level-5 { background-color: #BBB; }
+      .level-6 { background-color: #AAA; }
+      .level-7 { background-color: #999; }
+      .level-8 { background-color: #888; }
+      .level-9 { background-color: #777; }
+      .level-10 { background-color: #666; }
+      .level-11 { background-color: #555; }
+      .level-12 { background-color: #444; }
+      .level-13 { background-color: #333; }
+      .level-14 { background-color: #222; }
+      .level-15 { background-color: #111; }
+      .level-16 { background-color: #000; }
 
       .navbar {
         background: -webkit-linear-gradient(top, #333, #222);
@@ -93,6 +109,7 @@
         var text = originalScript()
         var freqs = _wordFreqs(text)
         var levels = _levels(freqs)
+        console.log("Number of levels: " + levels.length)
         _.each(_splitIntoLines(text), function(line) {
           addEmptyLine()
           _.each(_splitIntoWords(line), function(word) {
