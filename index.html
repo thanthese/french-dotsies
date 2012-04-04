@@ -13,27 +13,40 @@
     <style type="text/css">
 
       .template { display: none; }
-
       .original-script { display: none; }
       .original-script-full { display: none; }
 
       .box {
         float: left;
-        margin: 0.2em;
+
+        margin: 0.5em 0.3em;
+        padding: 0px;
+
+        font-size: 2.2em;
+        background: white;
       }
 
       .line { clear: both; }
+      hr { margin: 1em 10em 5em 3em; }
 
-      /* .english-word { display: none; } */
       .english-word {
-        padding: 1em;
+        font-size: 0.7em;
+        text-align: center;
       }
-
-      /* .english-word:hover { background-color: blue; } */
 
       .level-1 { background-color: blue; }
       .level-2 { background-color: red; }
       .level-3 { background-color: green; }
+
+      .navbar {
+        background: -webkit-linear-gradient(top, #333, #222);
+        height: 50px;
+      }
+      .navbar p {
+        color: #DDD;
+        font-size: 20px;
+        padding: 10px 20px;
+      }
 
     </style>
     <script>
@@ -65,12 +78,14 @@
       }
 
       function addEmptyLine() {
-        $(".all-text").append("<div class=\"line\"></div>")
+        var clone = $('.template.line-container').clone()
+        clone.removeClass("template")
+        $(".all-text").append(clone)
       }
 
       function translate(frenchWord) {
         var englishWord = dictionary[_cleanWord(frenchWord)]
-        return englishWord ? englishWord : "--"
+        return englishWord ? englishWord : "-"
       }
 
       // main
@@ -88,8 +103,11 @@
 
       /***  pure functions (prefixed with '_')  ***/
 
-      // lines begin with "- "
-      function _splitIntoLines(text) { return text.split("\n- ") }
+      // lines begin with "- "; blank lines don't count
+      function _splitIntoLines(text) {
+        return _.reject(
+          text.split("\n- "),
+          function(line) { return line == "" }) }
 
       // punctuation may be attached to words
       function _splitIntoWords(text) {
@@ -212,8 +230,16 @@
       <div class="english-word some-level">  english  </div>
     </div>
 
-    <div class="container">
-      <div class="all-text"></div>
+    <div class="template line-container">
+      <div class="line"></div>
+      <hr />
+    </div>
+
+    <div class="navbar">
+      <p>French Dotsies</p>
+      <div class="container">
+        <div class="all-text push-2 span-20"></div>
+      </div>
     </div>
 
     <div class="original-script">
