@@ -5,6 +5,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script src="underscore-min.js"></script>
     <script src="dictionary.js"></script>
+    <link rel="stylesheet" href="css/blueprint/screen.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="css/blueprint/print.css" type="text/css" media="print">
+    <!--[if lt IE 8]>
+      <link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection">
+    <![endif]-->
     <style type="text/css">
 
       .original-script { display: none; }
@@ -59,7 +64,7 @@
 
       function translate(frenchWord) {
         var englishWord = dictionary[_cleanWord(frenchWord)]
-        return englishWord ? englishWord : ""
+        return englishWord ? englishWord : "--"
       }
 
       // main
@@ -204,7 +209,9 @@
   </head>
   <body>
 
-    <div class="all-text"></div>
+    <div class="container">
+      <div class="all-text"></div>
+    </div>
 
     <div class="original-script">
 - Le 3 septembre 1973 à 18 h 28 min et 32 s, une mouche bleue de la famille des Calliphoridés, pouvant produire 14,670 battements d'ailes à la minute se posait rue Saint-Vincent, à Montmartre.  A la même seconde, à la terrasse d'un restaurant, le vent s'engouffrait sous une nappe, faisant danser les verres sans que personne ne s'en aperçoive.  Au même instant, au 5e étage du 28, avenue Trudaine dans le 9e, Eugène Koler, après l'enterrement de son ami, Émile Maginot, en effaçait le nom de son carnet d'adresse.  Toujours à la même seconde, pourvu d'un chromosome X de M. Raphaël Poulain atteignait l'ovule de Mme Poulain, née Amandine Fouet.  9 mois plus tard naissait Amélie Poulain.
