@@ -12,6 +12,8 @@
     <![endif]-->
     <style type="text/css">
 
+      .template { display: none; }
+
       .original-script { display: none; }
       .original-script-full { display: none; }
 
@@ -54,8 +56,12 @@
 
       // french word should not be clean (we'll need to write the punctuation)
       function addBoxToLastLine(frenchWord, level) {
-        var box = _buildBox(frenchWord, translate(frenchWord), level)
-        $(".line:last").append(box)
+        var clone = $('.box.template:first').clone()
+        clone.removeClass("template")
+        clone.find('.french-word').text(frenchWord)
+        clone.find('.english-word').text(translate(frenchWord))
+        clone.find('.english-word').addClass("level-" + level)
+        $('.line:last').append(clone)
       }
 
       function addEmptyLine() {
@@ -91,14 +97,6 @@
           .map(_trim)
           .reject(function(w) { return w == "" || w == "-" })
           .value()
-      }
-
-      function _buildBox(frenchWord, englishWord, level) {
-        return "<div class=\"box\"> "
-          + "<div class=\"french-word\">" + frenchWord + "</div> "
-          + "<div class=\"english-word level-" + level + "\">"
-            + englishWord + "</div> "
-          + "</div>"
       }
 
       // clear non-word chars off of both ends of word, and convert to lower
@@ -208,6 +206,11 @@
     </script>
   </head>
   <body>
+
+    <div class="template box">
+      <div class="french-word">  french  </div>
+      <div class="english-word some-level">  english  </div>
+    </div>
 
     <div class="container">
       <div class="all-text"></div>
