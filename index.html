@@ -108,17 +108,23 @@
         // numbers pass through
         if(_isNumber(cleanWord)) return cleanWord
 
-        // "d'word"
         var englishPrefix = ""
+
+        // "d'word"
         if(cleanWord.substr(0, 2) == "d'") {
           englishPrefix = "of "
           cleanWord = cleanWord.substr(2, cleanWord.length)
         }
 
         // "l'word"
-        var englishPrefix = ""
         if(cleanWord.substr(0, 2) == "l'") {
           englishPrefix = "the "
+          cleanWord = cleanWord.substr(2, cleanWord.length)
+        }
+
+        // "s'word"
+        if(cleanWord.substr(0, 2) == "s'") {
+          englishPrefix = "itself "
           cleanWord = cleanWord.substr(2, cleanWord.length)
         }
 
