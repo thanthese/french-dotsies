@@ -34,7 +34,7 @@
       .english-word {
         font-size: 0.7em;
         text-align: center;
-        color: #999;
+        color: #222;
       }
 
       .level-1 { background-color: #FFF; }
@@ -99,9 +99,31 @@
         $(".all-text").append(clone)
       }
 
+      // french word (with punctuation) -> english
       function translate(frenchWord) {
-        var englishWord = dictionary[_cleanWord(frenchWord)]
-        return englishWord ? englishWord : "-"
+
+        // no leading/trailing punctuation, lower case
+        var cleanWord = _cleanWord(frenchWord)
+
+        // numbers pass through
+        if(_isNumber(cleanWord)) return cleanWord
+
+        // "d'word"
+        var englishPrefix = ""
+        if(cleanWord.substr(0, 2) == "d'") {
+          englishPrefix = "of "
+          cleanWord = cleanWord.substr(2, cleanWord.length)
+        }
+
+        // "l'word"
+        var englishPrefix = ""
+        if(cleanWord.substr(0, 2) == "l'") {
+          englishPrefix = "the "
+          cleanWord = cleanWord.substr(2, cleanWord.length)
+        }
+
+        var englishWord = dictionary[cleanWord]
+        return englishWord ? englishPrefix + englishWord : "-"
       }
 
       // main
@@ -152,6 +174,12 @@
           || ch == ":"
           || ch == "!"
           || ch == "?")
+      }
+
+      function _isNumber(n) {
+        // inspiration: http://stackoverflow.com/questions/18082/validate-numbers-in-javascript-isnumeric
+        var noComma = n.replace(/,/g, "")
+        return !isNaN(parseFloat(noComma)) && isFinite(noComma);
       }
 
       // Return a hash describing how many times each cleaned word appears in
