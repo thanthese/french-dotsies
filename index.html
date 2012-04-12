@@ -3,10 +3,12 @@
   <head>
     <meta http-equiv="content-type" content="text/html;charset=utf-8" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="underscore-min.js"></script>
-    <script src="dictionary.js"></script>
-    <link rel="stylesheet" href="css/blueprint/screen.css" type="text/css" media="screen, projection">
-    <link rel="stylesheet" href="css/blueprint/print.css" type="text/css" media="print">
+    <script src="js/underscore-min.js"></script>
+    <script src="js/dictionary.js"></script>
+    <script src="js/jquery-ui-1.8.18.custom.min.js"></script>
+    <link href="css/ui-darkness/jquery-ui-1.8.18.custom.css" rel="Stylesheet" type="text/css" />
+    <link href="css/blueprint/screen.css" rel="stylesheet" type="text/css" media="screen, projection">
+    <link href="css/blueprint/print.css" rel="stylesheet" type="text/css" media="print">
     <!--[if lt IE 8]>
       <link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection">
     <![endif]-->
@@ -32,36 +34,43 @@
       .french-word { color: #333; }
 
       .english-word {
-        font-size: 0.7em;
+        font-size: 0.6em;
         text-align: center;
-        color: #222;
+        color: #228;
       }
 
-      .level-1 { background-color: #FFF; }
-      .level-2 { background-color: #EEE; }
-      .level-3 { background-color: #DDD; }
-      .level-4 { background-color: #CCC; }
-      .level-5 { background-color: #BBB; }
-      .level-6 { background-color: #AAA; }
-      .level-7 { background-color: #999; }
-      .level-8 { background-color: #888; }
-      .level-9 { background-color: #777; }
-      .level-10 { background-color: #666; }
-      .level-11 { background-color: #555; }
-      .level-12 { background-color: #444; }
-      .level-13 { background-color: #333; }
-      .level-14 { background-color: #222; }
-      .level-15 { background-color: #111; }
-      .level-16 { background-color: #000; }
+      .redacted-word {
+        color: #AAA;
+        background-color: #AAA;
+      }
 
-      .navbar {
+      .header-bar {
         background: -webkit-linear-gradient(top, #333, #222);
         height: 50px;
       }
-      .navbar p {
+      .header-bar p {
         color: #DDD;
         font-size: 20px;
         padding: 10px 20px;
+      }
+
+      div#level-slider {
+        position: fixed;
+
+        right: 40px;
+        top: 70px;
+        height: 400px;
+      }
+
+      div.level-indicator {
+        position: fixed;
+
+        right: 70px;
+        top: 100px;
+
+        font-size: 8em;
+
+        color: #333;
       }
 
     </style>
@@ -79,7 +88,10 @@
       // punctuation, a potentially hidden english word on the bottom
       // ('div.english-word') that does not, and a level describing how
       // difficult the word is.  Less frequently used words are considered to
-      // be more difficult
+      // be more difficult, and have a lower level.
+      //
+      // A word is considered "clean" if it's lower-case and isn't attached
+      // to any punctuation.
 
       function originalScript() { return $('.original-script')[0].innerHTML }
 
@@ -132,18 +144,56 @@
         return englishWord ? englishPrefix + englishWord : "-"
       }
 
+      // Show/hide the redacted marks in the text.
+      // - level: current level
+      // - levelCount: total number of levels
+      function updateRedactedMarks(level, levelCount) {
+        _.chain(levelCount).range().each(function(l) {
+          var box = $(".level-" + l)
+          if( l < level) {
+            box.addClass("redacted-word")
+          } else {
+            box.removeClass("redacted-word")
+          }
+        })
+      }
+
+      function initLevelSlider(levelCount) {
+        var slider = $("#level-slider").slider({
+          orientation: "vertical",
+          value: 0,
+          min: 0,
+          max: levelCount,
+          change: function(event, ui) {
+            var level = ui.value
+            $(".level-indicator").text(level)
+            updateRedactedMarks(level, levelCount)
+          }
+        });
+
+        $(".level-indicator").text(0)
+
+        $("#level-slider .ui-slider-handle").focus()
+      }
+
       // main
       $(function() {
+
+        // Take a giant blog of text, like a script, and produce the lines to the
+        // screen.  This create the main part of what the user sees and will
+        // interact with.
         var text = originalScript()
         var freqs = _wordFreqs(text)
         var levels = _levels(freqs)
-        console.log("Number of levels: " + levels.length)
         _.each(_splitIntoLines(text), function(line) {
           addEmptyLine()
           _.each(_splitIntoWords(line), function(word) {
             addBoxToLastLine(word, _wordLevel(freqs, levels, _cleanWord(word)))
           })
         })
+
+        // slider
+        initLevelSlider(levels.length)
       })
 
       /***  pure functions (prefixed with '_')  ***/
@@ -286,12 +336,15 @@
       <hr />
     </div>
 
-    <div class="navbar">
+    <div class="header-bar">
       <p>French Dotsies</p>
       <div class="container">
         <div class="all-text push-2 span-20"></div>
       </div>
     </div>
+
+    <div id="level-slider"></div>
+    <div class="level-indicator"></div>
 
     <div class="original-script">
 - Le 3 septembre 1973 à 18 h 28 min et 32 s, une mouche bleue de la famille des Calliphoridés, pouvant produire 14,670 battements d'ailes à la minute se posait rue Saint-Vincent, à Montmartre.  A la même seconde, à la terrasse d'un restaurant, le vent s'engouffrait sous une nappe, faisant danser les verres sans que personne ne s'en aperçoive.  Au même instant, au 5e étage du 28, avenue Trudaine dans le 9e, Eugène Koler, après l'enterrement de son ami, Émile Maginot, en effaçait le nom de son carnet d'adresse.  Toujours à la même seconde, pourvu d'un chromosome X de M. Raphaël Poulain atteignait l'ovule de Mme Poulain, née Amandine Fouet.  9 mois plus tard naissait Amélie Poulain.
