@@ -115,6 +115,14 @@
 
       function addEmptyLine() {
         var clone = $('.template.line-container').clone()
+        clone.bind('click', function printFrenchTextToConsole() {
+          var frenchText = _($(this)
+                              .find(".french-word"))
+                              .pluck("innerText")
+                              .join(" ")
+          console.log(frenchText)
+          console.log("")
+        })
         clone.removeClass("template")
         $(".all-text").append(clone)
       }
